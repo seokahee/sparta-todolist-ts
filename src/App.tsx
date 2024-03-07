@@ -1,15 +1,9 @@
 import { ChangeEvent, FormEvent, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import TodoItem from "./components/TodoItem";
+import { TodoList } from "./components/Todos";
 
-type TodoList = {
-  id: string;
-  title: string;
-  content: string;
-  date: string;
-  isDone: boolean;
-};
-
-function App() {
+const App = () => {
   const [todos, setTodos] = useState<TodoList[]>([]);
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
@@ -59,8 +53,6 @@ function App() {
     }
   };
 
-  const todoComplet = () => {};
-  const todoRemove = () => {};
   return (
     <div>
       <div>
@@ -88,20 +80,27 @@ function App() {
       </div>
 
       <div>
-        {todos.map((item) => {
-          return (
-            <div key={item.id}>
-              <div>{item.title}</div>
-              <div>{item.content}</div>
-              <div>{item.date}</div>
-              <button onClick={todoComplet}>완료</button>
-              <button onClick={todoRemove}>삭제</button>
-            </div>
-          );
-        })}
+        <div>
+          <h1>🔥Working</h1>
+          {todos
+            .filter((item) => !item.isDone)
+            .map((item) => {
+              console.log("item", item);
+              return <TodoItem key={item.id} item={item} setTodos={setTodos} />;
+            })}
+        </div>
+        <div>
+          <h1>🌈Done!</h1>
+          {todos
+            .filter((item) => item.isDone)
+            .map((item) => {
+              console.log("item", item);
+              return <TodoItem key={item.id} item={item} setTodos={setTodos} />;
+            })}
+        </div>
       </div>
     </div>
   );
-}
+};
 
 export default App;
