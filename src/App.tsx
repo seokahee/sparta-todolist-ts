@@ -36,21 +36,31 @@ function App() {
       hour: "2-digit",
       minute: "2-digit",
     });
-    if (title?.trim().length === 0) {
+    if (!title) {
+      alert("제목을 입력해 주세요");
       titleRef.current && titleRef.current.focus();
-    } else if (content?.trim().length === 0) {
+    } else if (!content) {
+      alert("내용을 입력해 주세요");
       contentRef.current && contentRef.current.focus();
     }
-    const newTodo = {
-      id: todoId,
-      title,
-      content,
-      date: regDate,
-      isDone: false,
-    };
-    setTodos([...todos, newTodo]);
+    if (title && content) {
+      const newTodo = {
+        id: todoId,
+        title,
+        content,
+        date: regDate,
+        isDone: false,
+      };
+      setTodos([...todos, newTodo]);
+      alert("새로운 일정이 등록 되었습니다.");
+      titleRef.current && titleRef.current.focus();
+      setTitle("");
+      setContent("");
+    }
   };
 
+  const todoComplet = () => {};
+  const todoRemove = () => {};
   return (
     <div>
       <div>
@@ -81,11 +91,11 @@ function App() {
         {todos.map((item) => {
           return (
             <div key={item.id}>
-              <div>{item.id}</div>
               <div>{item.title}</div>
               <div>{item.content}</div>
-              {/* <button onClick={todoComplet}>완료</button> */}
-              {/* <button onClick={todoRemove}>삭제</button> */}
+              <div>{item.date}</div>
+              <button onClick={todoComplet}>완료</button>
+              <button onClick={todoRemove}>삭제</button>
             </div>
           );
         })}
